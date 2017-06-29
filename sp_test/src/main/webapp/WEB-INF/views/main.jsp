@@ -20,8 +20,19 @@ var HttpXmlObj = function(){
 	//해당 브라우져가 듣보잡일경우.. 어떤 브라우져 인진 나도 모름.
 	alert("해당 브라우져가  Ajax를 지원하지 않습니다.");
 }
-var ajaxObj = new HttpXmlObj();
-alert(ajaxObj.ajax);
+var HashMap = function(){
+	this.array = new Array();
+	this.put = function(key, value){
+		this.array[key] = value;
+	}
+	
+	this.get = function(key){
+		return this.array[key];
+	}
+}
+var hm = new HashMap();
+hm.put("key","value");
+alert(hm.get("key"));
 
 var Object = function(){
 	this.a = 3;
