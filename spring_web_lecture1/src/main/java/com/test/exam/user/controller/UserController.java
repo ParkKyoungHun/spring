@@ -6,16 +6,15 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.test.exam.common.CommonController;
 import com.test.exam.user.dto.User;
 import com.test.exam.user.service.UserService;
 
@@ -35,7 +34,23 @@ public class UserController {
 			return "/user/login";
 		}
 	}
-	
+
+	@RequestMapping(value="/user/test", method=RequestMethod.GET)
+	public @ResponseBody Map loginTest(HttpServletRequest request, @RequestParam Map pm,ModelMap model,HttpSession hs) {
+		User user = us.getUserPwd(pm);
+		String url = "";
+		if(user==null){
+			model.put("data", "F");
+			model.put("url", "/user/login");
+			model.put("msg", "Login Fail");
+		}else{
+			hs.setAttribute("ID", user.getUser_id());
+			model.put("data", "S");
+			model.put("url", "/user/main");
+			model.put("msg", "Login Success");
+		}
+		return model;
+	}
 	@RequestMapping(value="/user/loginaction", method=RequestMethod.POST)
 	public @ResponseBody Map login(HttpServletRequest request, @RequestBody Map pm,ModelMap model,HttpSession hs) {
 		User user = us.getUserPwd(pm);
@@ -65,13 +80,13 @@ public class UserController {
 		String userid = (String)pm.get("userid");
 		if(mode.equals("del")){
 			int memdel = us.memdel(pm);
-			System.out.println("����� : "+memdel);
+			System.out.println("삭제 : "+memdel);
 			if(memdel > 0){
-				model.put("msg", userid+"���̵� �����Ǿ����ϴ�.");
+				model.put("msg", userid+"가 삭제 되었습니다.");
 				model.put("url", "/user/userlist");
 			}else{
 				model.put("url", "/user/userlist");
-				model.put("msg", "������ �����Ͽ����ϴ�.");
+				model.put("msg", "유저리스트로 이동합니다.");
 			}
 		}else{
 			List memlist = us.memlist();
