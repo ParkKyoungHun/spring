@@ -14,7 +14,7 @@ function doLogin() {
 	
 	$.ajax({ 
         type     : "POST"
-    ,   url      : "/spring4/user/login"
+    ,   url      : "/exam/user/login"
     ,   dataType : "json" 
     ,   beforeSend: function(xhr) {
         xhr.setRequestHeader("Accept", "application/json");

@@ -20,7 +20,7 @@ var AjaxUtil = function (url, params, type, dataType){
 		alert("url정보가 없습니다.");
 		return null;
 	}
-	this.url = "/spring4/" + url;
+	this.url = "/exam/" + url;
 	var initData = {}
 	initData["projectName"] = "spring4";
 	
@@ -77,7 +77,7 @@ function mdel(mid){
 	if(confirm("삭제하시겠습니까?")){
 		$("#mode").val("del");
 		$("#userid").val(mid);
-		var au = new AjaxUtil("/spring4/user/userlistaction","mode,userid");
+		var au = new AjaxUtil("/exam/user/userlistaction","mode,userid");
 		au.setCallbackSuccess(returnDel);
 		au.send();
 	}
@@ -93,7 +93,7 @@ function sess_chg(ids, vals){
 	if(confirm("권한을 설정하시겠습니까?")){
 		$("#userid").val(ids);
 		$("#role").val(vals);
-		var au = new AjaxUtil("/spring4/user/sessionRegi","userid,role");
+		var au = new AjaxUtil("/exam/user/sessionRegi","userid,role");
 		au.setCallbackSuccess(returnSession);
 		au.send();
 	}
