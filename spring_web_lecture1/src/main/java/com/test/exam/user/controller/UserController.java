@@ -79,7 +79,7 @@ public class UserController {
 		String mode = (String)pm.get("mode");
 		String userid = (String)pm.get("userid");
 		if(mode.equals("del")){
-			int memdel = us.memdel(pm);
+			int memdel = us.saveDeleteUser(pm);
 			System.out.println("삭제 : "+memdel);
 			if(memdel > 0){
 				model.put("msg", userid+"가 삭제 되었습니다.");
@@ -90,9 +90,7 @@ public class UserController {
 			}
 		}else{
 			List memlist = us.memlist();
-			List memrole = us.memrole();
 			model.put("data", memlist);
-			model.put("role", memrole);
 			model.put("url", "/user/userlist");
 			model.put("msg", "list call");
 		}
@@ -102,11 +100,22 @@ public class UserController {
 	@RequestMapping(value="/user/sessionRegi")
 	public @ResponseBody Map sessionRegi(@RequestBody Map pm,ModelMap model,HttpSession hs) {
 		hs.setAttribute("role", (String)pm.get("role"));
-		
 		model.put("url", "/user/main");
-		
 		return model;
 	}
-	
+
+
+	@RequestMapping(value="/user/signin")
+	public @ResponseBody Map signIn(@RequestBody Map pm,ModelMap model,HttpSession hs) {
+		int result = us.insertUser(pm);
+		if(result==1){
+			model.put("url", "/user/userlist");
+			model.put("msg", "회원가입이 완료되었습니다.");
+		}else{
+			model.put("url", "/user/main");
+			model.put("msg", "회원가입이 실패하였습니다.");
+		}
+		return model;
+	}
 
 }

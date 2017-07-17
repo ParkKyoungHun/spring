@@ -30,7 +30,14 @@ var AjaxUtil = function (url, params, type, dataType){
 
 		var data = {};
 		for(var i=0,max=paramArr.length;i<max;i++){
-			data[paramArr[i]] = $("input[name=" + paramArr[i] +"]").val();
+			var objType =  paramArr[i].split("_")[0];
+			var objName = paramArr[i].split("_")[1];
+			
+			if(objType=="it"){
+				data[objName] = $("input[name=" + objName +"]").val();
+			}else if(objType=="s"){
+				data[objName] = $("select[name=" + objName +"]").val();
+			}
 		}
 		this.param = JSON.stringify(data);
 	}
@@ -77,7 +84,7 @@ function mdel(mid){
 	if(confirm("삭제하시겠습니까?")){
 		$("#mode").val("del");
 		$("#userid").val(mid);
-		var au = new AjaxUtil("/exam/user/userlistaction","mode,userid");
+		var au = new AjaxUtil("/user/userlistaction","it_mode,it_userid");
 		au.setCallbackSuccess(returnDel);
 		au.send();
 	}

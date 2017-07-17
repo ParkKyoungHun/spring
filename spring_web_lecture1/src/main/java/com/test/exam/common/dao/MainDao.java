@@ -21,7 +21,12 @@ public  interface MainDao  {
 	public User getUserPwd(Map<String, Object> paramMap) ;
 	
 	public Object getObject(String sqlId, Map paramMap);
+	
 	public int memdel(String sqlId, Map paramMap);
+	
+	public int insert(String sqlId, Map paramMap);
+	
+	public int update(String sqlId, Map paramMap);
 }
 
 

@@ -7,7 +7,9 @@ public class User extends CommonDTO{
 	private String user_id;
 	private String user_pwd;
 	private String user_name;
-	private String user_rol;
+	private String age;
+	private String admin;
+	private String board_admin;
 	public String getUser_id() {
 		return user_id;
 	}
@@ -26,10 +28,23 @@ public class User extends CommonDTO{
 	public void setUser_name(String user_name) {
 		this.user_name = user_name;
 	}
-	public String getUser_rol() {
-		return user_rol;
+	public String getAge() {
+		return age;
 	}
-	public void setUser_rol(String user_rol) {
-		this.user_rol = user_rol;
+	public void setAge(String age) {
+		this.age = age;
 	}
+	public String getAdmin() {
+		return admin;
+	}
+	public void setAdmin(String admin) {
+		this.admin = admin;
+	}
+	public String getBoard_admin() {
+		return board_admin;
+	}
+	public void setBoard_admin(String board_admin) {
+		this.board_admin = board_admin;
+	}
+	
 }

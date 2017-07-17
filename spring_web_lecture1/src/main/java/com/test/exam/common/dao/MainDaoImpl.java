@@ -38,6 +38,16 @@ public  class MainDaoImpl extends SqlSessionDaoSupport implements MainDao{
 	public int memdel(String sqlId, Map paramMap){
 		return getSqlSession().delete(sqlId,paramMap);
 	}
+
+	@Override
+	public int insert(String sqlId, Map paramMap) {
+		return getSqlSession().insert(sqlId,paramMap);
+	}
+
+	@Override
+	public int update(String sqlId, Map paramMap) {
+		return getSqlSession().update(sqlId,paramMap);
+	}
 }
 
 

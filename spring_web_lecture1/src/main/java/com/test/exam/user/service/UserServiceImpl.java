@@ -9,6 +9,12 @@ import org.springframework.stereotype.Service;
 import com.test.exam.common.dao.MainDao;
 import com.test.exam.user.dto.User;
 
+import java.util.Map;
+
+import org.springframework.transaction.annotation.Transactional;
+
+import com.test.exam.user.dto.User;
+@Transactional
 @Service
 public class UserServiceImpl implements UserService {
 	
@@ -56,5 +62,22 @@ public class UserServiceImpl implements UserService {
 		String sqlId = "user.USER_DEL";
 		int user = mainDao.memdel(sqlId, pm);
 		return user;
+	}
+
+	@Override
+	public int insertUser(Map pm) {
+		String sqlId = "user.USER_INSERT";
+		int result = mainDao.memdel(sqlId, pm);
+		return result;
+	}
+
+	@Override
+	public int saveDeleteUser(Map pm) {
+		String sqlId = "user.USER_DEL";
+		int result = mainDao.memdel(sqlId, pm);
+		if(result==1){
+			throw new  RuntimeException("걍 에러!");
+		}
+		return result;
 	}
 }

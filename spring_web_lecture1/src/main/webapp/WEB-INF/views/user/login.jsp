@@ -8,7 +8,7 @@
 </head>
 <script>
 function doLogin() {
-	var au = new AjaxUtil("user/loginaction", "userid,userpwd");
+	var au = new AjaxUtil("user/loginaction", "it_userid,it_userpwd");
 	au.send();
 }
 

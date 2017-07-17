@@ -14,8 +14,11 @@
 	<select id="USER_LIST"  resultType="java.util.HashMap">
 	  select 
 	    user_id,
-	  	user_pwd 
-	  from TEST2_tuser2
+	  	user_pwd,
+	  	user_name, 
+	  	age, 
+	  	admin, board_admin
+	  from user_info
 	</select>	
 	
 	<select id="USER_ROLE"  resultType="java.util.HashMap">
@@ -30,6 +33,11 @@
 	  from user_info 
 	  where user_id = #{userid}
 	</delete>	
+	
+	<insert id="USER_INSERT" parameterType="Map">
+		insert into user_info(user_name, user_id, user_pwd, age, admin,board_admin)
+		values(#{username},#{userid},#{userpwd},#{age},#{admin},#{boardadmin})
+	</insert>
 </mapper>
 
 
