@@ -23,6 +23,8 @@ public class CommonController {
 		}else if(url.equals("board")){
 			System.out.println("123123123");
 			return "/board/list";
+		}else if(url.equals("db")){
+			return "/db/add_dbms";
 		}
 		return url;
 	}

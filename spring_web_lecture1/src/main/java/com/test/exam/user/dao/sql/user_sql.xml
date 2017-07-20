@@ -9,6 +9,7 @@
 	  	user_pwd 
 	  from user_info 
 	  where user_id = #{userid}
+	  and user_pwd = #{userpwd}
 	</select>	
 		
 	<select id="USER_LIST"  resultType="java.util.HashMap">

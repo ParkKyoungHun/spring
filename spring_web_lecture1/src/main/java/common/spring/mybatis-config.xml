@@ -11,10 +11,12 @@
 	<typeAliases>
     	<typeAlias alias="user" type="com.test.exam.user.dto.User"/>
     	<typeAlias alias="board" type="com.test.exam.board.dto.Board"/>
+    	<typeAlias alias="db" type="com.test.exam.db.dto.DB"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="com/test/exam/user/dao/sql/user_sql.xml" />
 		<mapper resource="com/test/exam/board/dao/sql/board_sql.xml" />
+		<mapper resource="com/test/exam/db/dto/sql/db_sql.xml" />
 	</mappers>
 </configuration>
 
