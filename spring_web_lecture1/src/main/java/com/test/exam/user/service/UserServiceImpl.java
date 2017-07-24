@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 		String userPwd = (String)pm.get("userpwd");
-		String checkPwd = ud.getUser_pwd();
+		String checkPwd = ud.getUserPwd();
 		
 		if(userPwd.equals(checkPwd)){
 			return true;

@@ -42,7 +42,7 @@ ${userid}님 반갑습니다.
 <br><a href="#" onclick="pageMove('/user/join')">회원가입</a>
 <br><a href="#" onclick="pageMove('/user/userlist')">회원리스트</a>
 <br><a href="#" onclick="pageMove('/board/list')">게시판리스트</a>
-<br><a href="#" onclick="pageMove('/db/add_dbms')">디비추가</a>
+<br><a href="#" onclick="pageMove('/db/main_dbms')">디비추가</a>
 <div id="resultDiv"></div>
 </body>
 </html>

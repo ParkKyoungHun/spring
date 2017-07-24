@@ -44,7 +44,7 @@ public class UserController {
 			model.put("url", "/user/login");
 			model.put("msg", "Login Fail");
 		}else{
-			hs.setAttribute("ID", user.getUser_id());
+			hs.setAttribute("ID", user.getUserId());
 			model.put("data", "S");
 			model.put("url", "/user/main");
 			model.put("msg", "Login Success");
@@ -60,7 +60,7 @@ public class UserController {
 			model.put("url", "/user/login");
 			model.put("msg", "Login Fail");
 		}else{
-			hs.setAttribute("ID", user.getUser_id());
+			hs.setAttribute("ID", user.getUserId());
 			model.put("data", "S");
 			model.put("url", "/user/main");
 			model.put("msg", "Login Success");

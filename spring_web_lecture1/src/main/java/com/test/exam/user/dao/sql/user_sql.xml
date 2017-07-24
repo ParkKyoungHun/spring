@@ -5,11 +5,11 @@
 
 	<select id="USER_PWD_OBJECT" parameterType="Map" resultType="user">
 	  select 
-	    user_id,
-	  	user_pwd 
-	  from user_info 
-	  where user_id = #{userid}
-	  and user_pwd = #{userpwd}
+	    userid,
+	  	userpwd 
+	  from user_info
+	  where userid = #{userid}
+	  and userpwd = #{userpwd}
 	</select>	
 		
 	<select id="USER_LIST"  resultType="java.util.HashMap">

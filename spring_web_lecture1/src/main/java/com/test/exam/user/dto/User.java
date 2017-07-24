@@ -4,29 +4,29 @@ import com.test.exam.common.CommonDTO;
 
 public class User extends CommonDTO{
 	
-	private String user_id;
-	private String user_pwd;
-	private String user_name;
+	private String userId;
+	private String userPwd;
+	private String userName;
 	private String age;
 	private String admin;
 	private String board_admin;
-	public String getUser_id() {
-		return user_id;
+	public String getUserId() {
+		return userId;
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-	public String getUser_pwd() {
-		return user_pwd;
+	public String getUserPwd() {
+		return userPwd;
 	}
-	public void setUser_pwd(String user_pwd) {
-		this.user_pwd = user_pwd;
+	public void setUserPwd(String userPwd) {
+		this.userPwd = userPwd;
 	}
-	public String getUser_name() {
-		return user_name;
+	public String getUserName() {
+		return userName;
 	}
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public String getAge() {
 		return age;
@@ -46,5 +46,4 @@ public class User extends CommonDTO{
 	public void setBoard_admin(String board_admin) {
 		this.board_admin = board_admin;
 	}
-	
 }
