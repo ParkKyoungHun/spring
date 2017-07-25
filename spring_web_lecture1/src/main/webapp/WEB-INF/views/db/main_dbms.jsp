@@ -32,14 +32,13 @@ var data={
 	    ]
 	};
 
-	function clickEvent(id,name){
+	function clickEvent(id){
 		if(id=="load"){
 			var au = new AjaxUtil("/user/userlistaction","it_mode");
 			au.setCallbackSuccess(returnList);
 			au.send();
 		}else if(id=="adddb"){
 			w1.show();
-			w1.getTopmostWindow();
 		}else if(id=="submit"){ 
 			var aud = new AjaxUtilDx("db/add",f1)
 			aud.send();

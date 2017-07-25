@@ -29,11 +29,12 @@ public class DBController {
 		db.setUserName((String)pm.get("id"));
 		db.setPassword((String)pm.get("pwd"));
 		dbs.setDataBase(db);
-		dbs.test(db);
 		int result = dbs.insertDB(pm);
 		model.addAttribute("create", "failed");
+		model.put("msg", "create failed");
 		if(result==1){
 			model.addAttribute("create", "succeed");
+			model.put("msg", "create succeed");
 		}
 		return model;
 	}
