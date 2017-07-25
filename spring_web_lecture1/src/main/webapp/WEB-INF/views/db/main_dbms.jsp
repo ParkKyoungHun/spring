@@ -32,7 +32,7 @@ var data={
 	    ]
 	};
 
-	function clickEvent(id){
+	function clickEvent(id,name){
 		if(id=="load"){
 			var au = new AjaxUtil("/user/userlistaction","it_mode");
 			au.setCallbackSuccess(returnList);
@@ -40,7 +40,7 @@ var data={
 		}else if(id=="adddb"){
 			w1.show();
 			w1.getTopmostWindow();
-		}else if(name=="submit"){ 
+		}else if(id=="submit"){ 
 			var aud = new AjaxUtilDx("db/add",f1)
 			aud.send();
 		}
@@ -65,12 +65,9 @@ var data={
 	}
 	
 	dhtmlxEvent(window,"load",function(){
-
 	    var layout = new dhtmlXLayoutObject(document.body, "3L");
 		dhxWins = new dhtmlXWindows();
-		
 		w1 = dhxWins.createWindow("w1", 20, 30, 270, 300);
-
         var formData = [
 			{type: "settings", position: "label-left", labelWidth: 100, inputWidth: 120},
 			{type: "block", inputWidth: "auto", offsetTop: 12, list: [
@@ -82,7 +79,7 @@ var data={
 				{type: "button", value: "커낵터신규생성", name:"submit",offsetLeft: 70, offsetTop: 14}
 			]}
 		];
-		var f1 = w1.attachForm(formData, true);
+		f1 = w1.attachForm(formData, true);
 		f1.attachEvent("onButtonClick",clickEvent);
 		w1.attachEvent("onClose",function(win){
 			w1.hide();
