@@ -33,11 +33,11 @@
             var formData = [
 				{type: "settings", position: "label-left", labelWidth: 100, inputWidth: 120},
 				{type: "block", inputWidth: "auto", offsetTop: 12, list: [
-					{type: "input", label: "DB URL", value: "jdbc:mysql://127.0.0.1:3306/iot", name:"url"},
+					{type: "input", label: "DB URL", value: "jdbc:mysql://127.0.0.1:3307/study_jsp", name:"url"},
 					{type: "input", label: "Driver Name", value: "com.mysql.jdbc.Driver", name:"dbms"},
 					{type: "input", label: "DB Name", value: "mine", name:"dbname"},
 					{type: "input", label: "User Name", value: "root", name:"id"},
-					{type: "password", label: "Password", value: "rnfma1", name:"pwd"},
+					{type: "password", label: "Password", value: "rjqnrdl82", name:"pwd"},
 					{type: "button", value: "Proceed", name:"submit",offsetLeft: 70, offsetTop: 14}
 				]}
 			];

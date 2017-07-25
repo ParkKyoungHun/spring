@@ -2,10 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
 
 <mapper namespace="db">
-
+<!-- 
+CREATE TABLE `db_info` (
+	`dinum` INT(5) NOT NULL AUTO_INCREMENT,
+	`url` VARCHAR(100) NOT NULL,
+	`dbms` VARCHAR(100) NOT NULL,
+	`dbname` VARCHAR(100) NOT NULL,
+	`id` VARCHAR(100) NOT NULL,
+	`pwd` VARCHAR(100) NOT NULL,
+	PRIMARY KEY (`dinum`)
+);
+ -->
 	<insert id="DB_INFO_INSERT" parameterType="Map" >
-		insert into db_info(url, port, dbms, dbname, id,pwd)
-		values(#{url},#{port},#{dbms},#{dbname},#{id},#{pwd})
+		insert into db_info(url,  dbms, dbname, id,pwd)
+		values(#{url},#{dbms},#{dbname},#{id},#{pwd})
 	</insert>
 	
 	<select id="TABLE_SELECT" parameterType="Map"  resultType="Map">
