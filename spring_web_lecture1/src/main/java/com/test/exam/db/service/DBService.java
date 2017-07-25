@@ -4,7 +4,11 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.test.exam.common.dto.DataBase;
+
 @Service
 public interface DBService {
+	public void setDataBase(DataBase db);
 	public int insertDB(Map paramMap);	
+	public void test(DataBase db);
 }

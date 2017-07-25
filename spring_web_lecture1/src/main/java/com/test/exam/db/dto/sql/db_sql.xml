@@ -8,6 +8,13 @@
 		values(#{url},#{port},#{dbms},#{dbname},#{id},#{pwd})
 	</insert>
 	
+	<select id="TABLE_SELECT" parameterType="Map"  resultType="Map">
+		SELECT table_name as tablename FROM INFORMATION_SCHEMA.TABLES
+        where table_schema=database()
+       <if test="tableName != null">
+       		and table_name = #{table_name}
+       </if>
+	</select>
 </mapper>
 
 

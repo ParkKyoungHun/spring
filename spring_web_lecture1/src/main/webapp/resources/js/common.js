@@ -15,6 +15,57 @@ function urlSubmit(f){
 	return true;
 }
 
+var AjaxUtilDx = function (url, fObj, type, dataType){
+	if(!url){
+		alert("url정보가 없습니다.");
+		return null;
+	}
+	this.url = "/exam/" + url;
+	var initData = {}
+	initData["projectName"] = "spring4";
+	
+	this.param = JSON.stringify(initData);
+	if(fObj){
+		var value = fObj.getFormData();
+		this.param = JSON.stringify(value);
+	}
+	this.type = type?type:"POST";
+	this.dataType = dataType?dataType:"json";
+	this.callbackSuccess = function(json){
+    	var url = json.url;
+    	var data = json.data;
+    	var msg = json.msg;
+    	if(msg){
+    		alert(msg);
+    	}
+    	if(url){
+        	pageMove(url);
+    	}
+	}
+	
+	this.setCallbackSuccess = function(callback){
+		this.callbackSuccess = callback;
+	}
+	
+	this.send = function(){
+		$.ajax({ 
+	        type     : this.type
+	    ,   url      : this.url
+	    ,   dataType : this.dataType 
+	    ,   beforeSend: function(xhr) {
+	        xhr.setRequestHeader("Accept", "application/json");
+	        xhr.setRequestHeader("Content-Type", "application/json");
+	    }
+	    ,   data     : this.param
+	    ,   success : this.callbackSuccess
+	    ,   error : function(xhr, status, e) {
+		    	alert("에러 : "+e);
+		},
+		done : function(e) {
+		}
+		});
+	}
+}
 var AjaxUtil = function (url, params, type, dataType){
 	if(!url){
 		alert("url정보가 없습니다.");
@@ -40,6 +91,7 @@ var AjaxUtil = function (url, params, type, dataType){
 			}
 		}
 		this.param = JSON.stringify(data);
+		alert(this.param);
 	}
 	this.type = type?type:"POST";
 	this.dataType = dataType?dataType:"json";

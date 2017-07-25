@@ -9,7 +9,7 @@ public class User extends CommonDTO{
 	private String userName;
 	private String age;
 	private String admin;
-	private String board_admin;
+	private String boardAdmin;
 	public String getUserId() {
 		return userId;
 	}
@@ -40,10 +40,10 @@ public class User extends CommonDTO{
 	public void setAdmin(String admin) {
 		this.admin = admin;
 	}
-	public String getBoard_admin() {
-		return board_admin;
+	public String getBoardAdmin() {
+		return boardAdmin;
 	}
-	public void setBoard_admin(String board_admin) {
-		this.board_admin = board_admin;
+	public void setBoardAdmin(String boardAdmin) {
+		this.boardAdmin = boardAdmin;
 	}
 }

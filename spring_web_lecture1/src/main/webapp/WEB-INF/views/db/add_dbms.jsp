@@ -21,27 +21,27 @@
 		</tr>
 		<tr>
 			<td>url</td>
-			<td><input type="text" name="url" id="url" /></td>
+			<td><input type="text" name="url" id="url"  value="jdbc:mysql://127.0.0.1:3306/iot"/></td>
 		</tr>
 		<tr>
 			<td>port</td>
-			<td><input type="text" name="port" id="port" /></td>
+			<td><input type="text" name="port" id="port"  value="3306"/></td>
 		</tr>
 		<tr>
 			<td>dbms</td>
-			<td><input type="text" name="dbms" id="dbms" /></td>
+			<td><input type="text" name="dbms" id="dbms" value="com.mysql.jdbc.Driver" /></td>
 		</tr>
 		<tr>
 			<td>dbname</td>
-			<td><input type="text" name="dbname" id="dbname" /></td>
+			<td><input type="text" name="dbname" id="dbname"  value="mine"/></td>
 		</tr>
 		<tr>
 			<td>id</td>
-			<td><input type="text" name="id" id="id" /></td>
+			<td><input type="text" name="id" id="id" value="root"/></td>
 		</tr>
 		<tr>
 			<td>pwd</td>
-			<td><input type="text" name="pwd" id="pwd" /></td>
+			<td><input type="text" name="pwd" id="pwd" value="rnfma1"/></td>
 		</tr>
 		<tr>
 			<td colspan="2"><input type="button" value="신규디비생성"

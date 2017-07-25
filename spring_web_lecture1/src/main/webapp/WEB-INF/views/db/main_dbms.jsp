@@ -9,29 +9,74 @@
 </head>
 
 <script>
+var bottomGrid, topGrid; 
 var data={
 	    rows:[
 	        { id:1, data: ["2","red1", "red", "33","asdf","asdf"]},
 	        { id:2, data: ["2","red1", "red", "33","asdf","asdf"]}
 	    ]
 	};
-	var grid; 
+
+	function reload(id){
+		if(id=="load"){
+			var au = new AjaxUtil("/user/userlistaction","it_mode");
+			au.setCallbackSuccess(returnList);
+			au.send();
+		}
+	}
+	
+	function returnList(list){
+		var datas = list.data;
+    	var strs = "<?xml version='1.0' encoding='utf-8'?>";
+		strs += '<rows>';
+    	for(i=0; i<datas.length;i++){
+    		strs += "<row id='r" + (i+1) + "'>";
+    		strs += '<cell>' + datas[i].userid +'</cell>';
+    		strs += '<cell>' + datas[i].username +'</cell>';
+    		strs += '<cell>' + datas[i].age +'</cell>';
+    		strs += '<cell>' + datas[i].admin +'</cell>';
+    		strs += '<cell>' + datas[i].boardadmin +'</cell>';
+    		strs += "</row>";
+    	}	
+    	strs += "</rows>";
+		bottomGrid.clearAll();
+		bottomGrid.parse(strs,"xml");
+	}
+	
 	dhtmlxEvent(window,"load",function(){
 	    var layout = new dhtmlXLayoutObject(document.body, "3L");
 	    layout.cells("a").setWidth(270);        //sets the width of the 'form' cell  
 	    layout.cells("a").setText("DataBase Connections");//sets the form's header  
 	    layout.cells("b").hideHeader();      //hides the header of the 'chart' cell  
 	    layout.cells("c").setText("Result");     //hides the header of the 'grid' cell  
-	    grid = layout.cells("c").attachGrid();
-	    grid.setImagePath(imgPath);       //sets the path to the source images
-	    grid.setHeader("userid, username, age, address",null
+	    var myTabbar = layout.cells("b").attachTabbar(); 
+	    myTabbar.addTab("a1", "Tab 1-1", null, null, true);
+	    myTabbar.addTab("a2", "Tab 1-2");
+	    topGrid = layout.cells("b").attachGrid();
+	    topGrid.setImagePath(imgPath);
+	    topGrid.setHeader("userid, username, age, address",null
+	    		,["text-align:center;","text-align:center;","text-align:center;","text-align:center","text-align:center"]);   
+	    topGrid.setColTypes("ed,ed,ed,ed,ed");                 //sets the types of columns
+	    topGrid.setInitWidths("100,150,230,230,*");   //sets the initial widths of columns
+	    topGrid.setColAlign("center,center,center,center,center");  //sets the x alignment
+	    topGrid.setColSorting("str,str,str,str,str");
+	    topGrid.init();
+	    topGrid.parse(data, "json");
+	    
+	    var cToolBar = layout.cells("c").attachToolbar();
+	    cToolBar.addButton("load","right","reLoad");
+	    cToolBar.attachEvent("onClick", reload);
+	    
+	    bottomGrid = layout.cells("c").attachGrid();
+	    bottomGrid.setImagePath(imgPath);       //sets the path to the source images
+	    bottomGrid.setHeader("userid, username, age, admin, boardadmin",null
 	    		,["text-align:center;","text-align:center;","text-align:center;","text-align:center","text-align:center"]);              //sets the columns' headers
-	    grid.setColTypes("ed,ed,ed,ed,ed");                 //sets the types of columns
-	    grid.setInitWidths("100,150,230,230,*");   //sets the initial widths of columns
-	    grid.setColAlign("center,center,center,center,center");  //sets the x alignment
-		grid.setColSorting("str,str,str,str,str");
-	    grid.init();
-	    grid.parse(data, "json");
+	    bottomGrid.setColTypes("ed,ed,ed,ed,ed");                 //sets the types of columns
+	    bottomGrid.setInitWidths("100,150,230,230,*");   //sets the initial widths of columns
+	    bottomGrid.setColAlign("center,center,center,center,center");  //sets the x alignment
+	    bottomGrid.setColSorting("str,str,str,str,str");
+	    bottomGrid.init();
+	    //bottomGrid.parse(data, "json");
 
 	});
 </script>
@@ -43,6 +88,7 @@ var data={
         margin: 0px;      /*hides the body's scrolls*/
     }
 </style>
+<input type="hidden" name="mode" id="mode" value="list"/>
 <body>
 </body>
 </html>

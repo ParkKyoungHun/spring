@@ -14,11 +14,11 @@
 		
 	<select id="USER_LIST"  resultType="java.util.HashMap">
 	  select 
-	    user_id,
-	  	user_pwd,
-	  	user_name, 
+	    userid,
+	  	userpwd,
+	  	username, 
 	  	age, 
-	  	admin, board_admin
+	  	admin, boardadmin
 	  from user_info
 	</select>	
 	
