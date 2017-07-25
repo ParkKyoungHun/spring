@@ -40,6 +40,9 @@ var data={
 		}else if(id=="adddb"){
 			w1.show();
 			w1.getTopmostWindow();
+		}else if(name=="submit"){ 
+			var aud = new AjaxUtilDx("db/add",f1)
+			aud.send();
 		}
 	}
 	
@@ -76,16 +79,14 @@ var data={
 				{type: "input", label: "DB Name", value: "mine", name:"dbname"},
 				{type: "input", label: "User Name", value: "root", name:"id"},
 				{type: "password", label: "Password", value: "rjqnrdl82", name:"pwd"},
-				{type: "button", value: "Proceed", name:"submit",offsetLeft: 70, offsetTop: 14}
+				{type: "button", value: "커낵터신규생성", name:"submit",offsetLeft: 70, offsetTop: 14}
 			]}
 		];
 		var f1 = w1.attachForm(formData, true);
-		f1.attachEvent("onButtonClick",function(name){
-			if(name=="submit"){ 
-				var aud = new AjaxUtilDx("db/add",f1)
-				aud.send();
-			}
-		});
+		f1.attachEvent("onButtonClick",clickEvent);
+		w1.attachEvent("onClose",function(win){
+			w1.hide();
+		})
 		w1.hide();
 		w1.setText("Add DB Connector");
 		
