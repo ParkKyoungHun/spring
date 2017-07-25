@@ -24,7 +24,7 @@
 		}
 </style>
 <script>
-var bottomGrid, topGrid, dhxWins, w1,f1;
+var bottomGrid, topGrid, dhxWins, w1,f1, dbConGrid;
 var data={
 	    rows:[
 	        { id:1, data: ["2","red1", "red", "33","asdf","asdf"]},
@@ -41,10 +41,36 @@ var data={
 			w1.show();
 		}else if(id=="submit"){ 
 			var aud = new AjaxUtilDx("db/add",f1)
+			aud.setCallbackSuccess(returnDBList);
 			aud.send();
+		}else if(id=="condb"){
+			var rowId = dbConGrid.getSelectedRowId();
+			if(rowId==null){
+				alert("연결하실 디비를 선택해주세요");
+				return;
+			}
+		}else if(id=="selectdb"){
+			var au = new AjaxUtil("db/select");
+			au.setCallbackSuccess(returnDBList);
+			au.send();
 		}
 	}
 	
+	function returnDBList(list){
+		var datas = list.data;
+    	var strs = "<?xml version='1.0' encoding='utf-8'?>";
+		strs += '<rows>';
+    	for(i=0; i<datas.length;i++){
+    		strs += "<row id='r" + (i+1) + "'>";
+    		strs += '<cell>' + datas[i].dinum +'</cell>';
+    		strs += '<cell>' + datas[i].dbname +'</cell>';
+    		strs += '<cell>' + datas[i].id +'</cell>';
+    		strs += "</row>";
+    	}	
+    	strs += "</rows>";
+    	dbConGrid.clearAll();
+    	dbConGrid.parse(strs,"xml");
+	}
 	function returnList(list){
 		var datas = list.data;
     	var strs = "<?xml version='1.0' encoding='utf-8'?>";
@@ -82,15 +108,26 @@ var data={
 		f1.attachEvent("onButtonClick",clickEvent);
 		w1.attachEvent("onClose",function(win){
 			w1.hide();
-		})
+		});
 		w1.hide();
 		w1.setText("Add DB Connector");
 		
 	    layout.cells("a").setWidth(270);        //sets the width of the 'form' cell  
 	    var aToolBar = layout.cells("a").attachToolbar();
 	    aToolBar.addButton("adddb",1,"Add Conector");
+	    aToolBar.addButton("condb",2,"Connection");
 	    aToolBar.attachEvent("onClick", clickEvent);
+	    dbConGrid = layout.cells("a").attachGrid();
 
+	    dbConGrid.setImagePath(imgPath);
+	    dbConGrid.setHeader("Num, DB Name, ID",null
+	    		,["text-align:center;","text-align:center;","text-align:center;"]);   
+	    dbConGrid.setColTypes("ro,ro,ro");                 //sets the types of columns
+	    dbConGrid.setInitWidths("40,100,100");   //sets the initial widths of columns
+	    dbConGrid.setColAlign("center,center,center");  //sets the x alignment
+	    dbConGrid.setColSorting("int,str,str");
+	    dbConGrid.init();
+	    
 	    layout.cells("a").setText("DataBase Connections");//sets the form's header  
 	    layout.cells("b").hideHeader();      //hides the header of the 'chart' cell  
 	    layout.cells("c").setText("Result");     //hides the header of the 'grid' cell  
@@ -122,7 +159,7 @@ var data={
 	    bottomGrid.setColSorting("str,str,str,str,str");
 	    bottomGrid.init();
 	    //bottomGrid.parse(data, "json");
-
+	    clickEvent('selectdb');
 	});
 </script>
 <div id="winVP"></div>

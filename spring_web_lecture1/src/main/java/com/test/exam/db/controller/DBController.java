@@ -1,5 +1,6 @@
 package com.test.exam.db.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,18 @@ public class DBController {
 		model.addAttribute("create", "failed");
 		model.put("msg", "create failed");
 		if(result==1){
+			List dbList = dbs.getDBList();
+			model.put("data", dbList);
 			model.addAttribute("create", "succeed");
 			model.put("msg", "create succeed");
 		}
+		return model;
+	}
+
+	@RequestMapping(value="/db/select", method=RequestMethod.POST)
+	public @ResponseBody Map selectDB(@RequestBody Map pm, ModelMap model) {
+		List dbList = dbs.getDBList();
+		model.put("data", dbList);
 		return model;
 	}
 }

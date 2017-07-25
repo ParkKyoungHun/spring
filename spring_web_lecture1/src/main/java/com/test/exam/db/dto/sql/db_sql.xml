@@ -17,7 +17,9 @@ CREATE TABLE `db_info` (
 		insert into db_info(url,  dbms, dbname, id,pwd)
 		values(#{url},#{dbms},#{dbname},#{id},#{pwd})
 	</insert>
-	
+	<select id="DB_INFO_SELECT" parameterType="Map"  resultType="Map">
+		select dinum, url, dbms, dbname, id, pwd from db_info
+	</select>
 	<select id="TABLE_SELECT" parameterType="Map"  resultType="Map">
 		SELECT table_name as tablename FROM INFORMATION_SCHEMA.TABLES
         where table_schema=database()
