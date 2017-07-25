@@ -24,7 +24,7 @@
 		}
 </style>
 <script>
-var bottomGrid, topGrid, dhxWins, w1,f1, dbConGrid;
+var bottomGrid, topGrid, dhxWins, w1,f1, dbConTree;
 var data={
 	    rows:[
 	        { id:1, data: ["2","red1", "red", "33","asdf","asdf"]},
@@ -44,7 +44,7 @@ var data={
 			aud.setCallbackSuccess(returnDBList);
 			aud.send();
 		}else if(id=="condb"){
-			var rowId = dbConGrid.getSelectedRowId();
+			var rowId = dbConTree.getSelectedRowId();
 			if(rowId==null){
 				alert("연결하실 디비를 선택해주세요");
 				return;
@@ -59,17 +59,13 @@ var data={
 	function returnDBList(list){
 		var datas = list.data;
     	var strs = "<?xml version='1.0' encoding='utf-8'?>";
-		strs += '<rows>';
+		strs += '<tree id="0">';
     	for(i=0; i<datas.length;i++){
-    		strs += "<row id='r" + (i+1) + "'>";
-    		strs += '<cell>' + datas[i].dinum +'</cell>';
-    		strs += '<cell>' + datas[i].dbname +'</cell>';
-    		strs += '<cell>' + datas[i].id +'</cell>';
-    		strs += "</row>";
+    		strs += '<item text="' + datas[i].dinum + ',' + datas[i].dbname + '" id="t' + (i+1) + '">';
+    		strs += "</item>";
     	}	
-    	strs += "</rows>";
-    	dbConGrid.clearAll();
-    	dbConGrid.parse(strs,"xml");
+    	strs += "</tree>";
+    	dbConTree.parse(strs,"xml");
 	}
 	function returnList(list){
 		var datas = list.data;
@@ -117,16 +113,9 @@ var data={
 	    aToolBar.addButton("adddb",1,"Add Conector");
 	    aToolBar.addButton("condb",2,"Connection");
 	    aToolBar.attachEvent("onClick", clickEvent);
-	    dbConGrid = layout.cells("a").attachGrid();
-
-	    dbConGrid.setImagePath(imgPath);
-	    dbConGrid.setHeader("Num, DB Name, ID",null
-	    		,["text-align:center;","text-align:center;","text-align:center;"]);   
-	    dbConGrid.setColTypes("ro,ro,ro");                 //sets the types of columns
-	    dbConGrid.setInitWidths("40,100,100");   //sets the initial widths of columns
-	    dbConGrid.setColAlign("center,center,center");  //sets the x alignment
-	    dbConGrid.setColSorting("int,str,str");
-	    dbConGrid.init();
+	    dbConTree = layout.cells("a").attachTree();
+	    dbConTree.setImagePath(imgPath);
+	    
 	    
 	    layout.cells("a").setText("DataBase Connections");//sets the form's header  
 	    layout.cells("b").hideHeader();      //hides the header of the 'chart' cell  
