@@ -24,7 +24,7 @@
 		}
 </style>
 <script>
-var bottomGrid, topGrid, dhxWins, w1,f1, dbConTree;
+var bottomGrid, topGrid, dhxWins, w1,f1, dbConGrid;
 var data={
 	    rows:[
 	        { id:1, data: ["2","red1", "red", "33","asdf","asdf"]},
@@ -44,28 +44,52 @@ var data={
 			aud.setCallbackSuccess(returnDBList);
 			aud.send();
 		}else if(id=="condb"){
-			var rowId = dbConTree.getSelectedRowId();
+			var rowId = dbConGrid.getSelectedRowId();
 			if(rowId==null){
 				alert("연결하실 디비를 선택해주세요");
 				return;
+			}else{
+				var aud = new AjaxUtilDx("db/condb",dbConGrid)
+				aud.setCallbackSuccess(returnTableList);
+				aud.send();
 			}
 		}else if(id=="selectdb"){
+			
 			var au = new AjaxUtil("db/select");
 			au.setCallbackSuccess(returnDBList);
 			au.send();
 		}
 	}
-	
 	function returnDBList(list){
 		var datas = list.data;
     	var strs = "<?xml version='1.0' encoding='utf-8'?>";
-		strs += '<tree id="0">';
+		strs += '<rows>';
     	for(i=0; i<datas.length;i++){
-    		strs += '<item text="' + datas[i].dinum + ',' + datas[i].dbname + '" id="t' + (i+1) + '">';
-    		strs += "</item>";
+    		strs += "<row id='r" + (i+1) + "'>";
+    		strs += '<cell image="folder.gif">' + datas[i].dinum +'</cell>';
+    		strs += '<cell>' + datas[i].dbname +'</cell>';
+    		strs += '<cell>' + datas[i].id +'</cell>';
+    		strs += "</row>";
     	}	
-    	strs += "</tree>";
-    	dbConTree.parse(strs,"xml");
+    	strs += "</rows>";
+    	dbConGrid.clearAll();
+    	dbConGrid.parse(strs,"xml");
+	}
+	
+	function returnTableList(list){
+		var z=myTreeGrid.getRowId(this.nextSibling.value);
+		if (z) myTreeGrid.addRow((new Date()).valueOf(),['new row','text','text',1,1],0,z)"
+		var datas = list.data;
+    	var strs = "<?xml version='1.0' encoding='utf-8'?>";
+		strs += '<rows>';
+    	for(i=0; i<datas.length;i++){
+    		strs += "<row id='r" + (i+1) + "'>";
+    		strs += '<cell image="folder.gif">' + datas[i].dinum +'</cell>';
+    		strs += '<cell>' + datas[i].dbname +'</cell>';
+    		strs += '<cell>' + datas[i].id +'</cell>';
+    		strs += "</row>";
+    	}	
+    	strs += "</rows>";
 	}
 	function returnList(list){
 		var datas = list.data;
@@ -113,8 +137,16 @@ var data={
 	    aToolBar.addButton("adddb",1,"Add Conector");
 	    aToolBar.addButton("condb",2,"Connection");
 	    aToolBar.attachEvent("onClick", clickEvent);
-	    dbConTree = layout.cells("a").attachTree();
-	    dbConTree.setImagePath(imgPath);
+	    dbConGrid = layout.cells("a").attachGrid(); 
+	    dbConGrid.setImagePath(imgPath);
+	    dbConGrid.setHeader("Num, DB Name, User Id",null
+	    		,["text-align:center;","text-align:center;","text-align:center;"]);   
+	    dbConGrid.setColTypes("tree,ro,ro");                 //sets the types of columns
+	    dbConGrid.setInitWidths("70,100,*");   //sets the initial widths of columns
+	    dbConGrid.setColAlign("center,center,center");  //sets the x alignment
+	    dbConGrid.setColSorting("str,str,str");
+	    dbConGrid.setColumnIds("dinum,dbname,id");
+	    dbConGrid.init();
 	    
 	    
 	    layout.cells("a").setText("DataBase Connections");//sets the form's header  

@@ -15,19 +15,26 @@ function urlSubmit(f){
 	return true;
 }
 
-var AjaxUtilDx = function (url, fObj, type, dataType){
+var AjaxUtilDx = function (url, dxObj, type, dataType){
 	if(!url){
 		alert("url정보가 없습니다.");
 		return null;
 	}
 	this.url = "/exam/" + url;
-	var initData = {}
-	initData["projectName"] = "spring4";
+	var initData = {};
 	
-	this.param = JSON.stringify(initData);
-	if(fObj){
-		var value = fObj.getFormData();
+	if(dxObj && dxObj instanceof window.dhtmlXForm){
+		var value = dxObj.getFormData();
 		this.param = JSON.stringify(value);
+	}else if(dxObj && dxObj instanceof dhtmlXGridObject ){
+		var rowId = dxObj.getSelectedRowId();
+		var colCnt = dxObj.getColumnCount();
+		for(var i=0;i<colCnt;i++){
+			var name = dxObj.getColumnId(i);
+			var value = dxObj.cells(rowId, i).getValue();
+			initData[name] = value;
+		}
+		this.param = JSON.stringify(initData);
 	}
 	this.type = type?type:"POST";
 	this.dataType = dataType?dataType:"json";

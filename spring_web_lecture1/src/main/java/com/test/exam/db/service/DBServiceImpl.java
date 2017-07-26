@@ -18,23 +18,29 @@ public class DBServiceImpl implements DBService {
 	private MainDao mainDao;
 	@Autowired
 	private DataSourceFactory dsf;
+	private SqlSession ss ;
 	
 	public void setDataBase(DataBase db){
 		dsf.setDataSource(db);
 	}
 	
-	public void test(DataBase db){
-		try {
-			SqlSession ss = dsf.getSession(db.getDbName());
-			ss.selectList("db.TABLE_SELECT");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public boolean connectDB(DataBase db) throws Exception{
+			dsf.setDataSource(db);
+			ss = dsf.getSession(db.getDbName());
+			return true;
 	}
 	
+	public List getTableList(){
+		return ss.selectList("db.TABLE_SELECT");
+	}
 	public List getDBList(){
 		String sqlId = "db.DB_INFO_SELECT";
 		return mainDao.getList(sqlId);
+	}
+	
+	public Map getDBInfo(Map paramMap){
+		String sqlId = "db.DB_INFO_SELECT";
+		return (Map) mainDao.getObject(sqlId, paramMap);
 	}
 	
 	public int insertDB(Map paramMap){

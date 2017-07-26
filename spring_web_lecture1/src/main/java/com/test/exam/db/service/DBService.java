@@ -11,6 +11,8 @@ import com.test.exam.common.dto.DataBase;
 public interface DBService {
 	public void setDataBase(DataBase db);
 	public int insertDB(Map paramMap);	
-	public void test(DataBase db);
+	public boolean connectDB(DataBase db)throws Exception;
+	public List getTableList();
 	public List getDBList();
+	public Map getDBInfo(Map paramMap);
 }

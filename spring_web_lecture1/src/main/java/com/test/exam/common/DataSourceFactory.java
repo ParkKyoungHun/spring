@@ -15,8 +15,8 @@ import com.test.exam.common.dto.DataBase;
 @Service
 public class DataSourceFactory{
 
-	private HashMap<String, DataSource> map = new HashMap<String, DataSource>();
-	private SqlSessionFactoryBean ssf;
+	private HashMap<String, DataSource> dsMap = new HashMap<String, DataSource>();
+	private HashMap<String, SqlSession> ssMap = new HashMap<String, SqlSession>();
 	
 	public void setDataSource(DataBase db){
 		BasicDataSource bds = new BasicDataSource();
@@ -24,22 +24,25 @@ public class DataSourceFactory{
 		bds.setUrl(db.getUrl());
 		bds.setUsername(db.getUserName());
 		bds.setPassword(db.getPassword());
-		map.put(db.getDbName(), bds);
+		dsMap.put(db.getDbName(), bds);
 	}
 
 	private DataSource getDataSource(String dbName){
-		return map.get(dbName);
+		return dsMap.get(dbName);
 	}
 	
 	private SqlSessionFactoryBean getSsf(String dbName){
-		ssf = new SqlSessionFactoryBean();
+		SqlSessionFactoryBean ssf = new SqlSessionFactoryBean();
 		ssf.setDataSource(getDataSource(dbName));
 		ssf.setConfigLocation(new ClassPathResource("common/spring/mybatis-config.xml"));
 		return ssf;
 	}
 	
 	public SqlSession getSession(String dbName) throws Exception{
-		getSsf(dbName);
-		return ssf.getObject().openSession();
+		if(!ssMap.containsKey(dbName)){
+			SqlSessionFactoryBean ssf = getSsf(dbName);
+			ssMap.put(dbName, ssf.getObject().openSession());
+		}
+		return ssMap.get(dbName);
 	}
 }

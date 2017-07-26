@@ -48,4 +48,18 @@ public class DBController {
 		model.put("data", dbList);
 		return model;
 	}
+	@RequestMapping(value="/db/condb", method=RequestMethod.POST)
+	public @ResponseBody Map connectDB(@RequestBody Map pm, ModelMap model) throws Exception {
+		Map hm = dbs.getDBInfo(pm);
+		db.setDbName((String) hm.get("dbname"));
+		db.setDriverName((String) hm.get("dbms"));
+		db.setUrl((String)hm.get("url"));
+		db.setUserName((String)hm.get("id"));
+		db.setPassword((String)hm.get("pwd"));
+		if(dbs.connectDB(db)){
+			List tableList = dbs.getTableList();
+			model.put("data", tableList);
+		}
+		return model;
+	}
 }
