@@ -32,6 +32,12 @@ CREATE TABLE `db_info` (
        		and table_name = #{table_name}
        </if>
 	</select>
+	<select id="TABLE_INFO_SELECT" parameterType="Map"  resultType="Map">
+		select  column_name, data_type, character_maximum_length,is_nullable
+		 from INFORMATION_SCHEMA.columns 
+		where table_name=#{dbname}
+		 order by ordinal_position;
+	</select>
 </mapper>
 
 

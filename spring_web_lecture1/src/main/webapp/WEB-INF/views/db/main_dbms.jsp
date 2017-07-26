@@ -24,7 +24,7 @@
 		}
 </style>
 <script>
-var bottomGrid, topGrid, dhxWins, w1,f1, dbConGrid;
+var bottomGrid, topGrid, dhxWins, w1,f1,f2, dbConGrid;
 var data={
 	    rows:[
 	        { id:1, data: ["2","red1", "red", "33","asdf","asdf"]},
@@ -32,6 +32,14 @@ var data={
 	    ]
 	};
 
+
+	function gridClickEvent(id, ind){
+		if(id.indexOf("table")!=-1){
+			var aud = new AjaxUtilDx("db/tableinfo",dbConGrid)
+			aud.setCallbackSuccess(returnTableInfo);
+			aud.send();
+		}
+	}
 	function clickEvent(id){
 		if(id=="load"){
 			var au = new AjaxUtil("/user/userlistaction","it_mode");
@@ -54,11 +62,58 @@ var data={
 				aud.send();
 			}
 		}else if(id=="selectdb"){
-			
 			var au = new AjaxUtil("db/select");
 			au.setCallbackSuccess(returnDBList);
 			au.send();
+		}else if(id=="runsql"){
+			var aud = new AjaxUtilDx("db/runsql",f2)
+			aud.setCallbackSuccess(returnResultList);
+			aud.send();
+		}else if(id=="cancelsql"){
+			
 		}
+	}
+	
+	function returnResultList(list){
+		var datas = list.data;
+		var columns = list.columns;
+    	var strs = "<?xml version='1.0' encoding='utf-8'?>";
+		strs += '<rows>';
+		var header = '<head>';
+		var rows = "";
+
+    	for(i=0; i<datas.length;i++){
+    		var obj = datas[i];
+    		rows += "<row id='r" + (i+1) + "'>";
+    		for(var key in obj){
+    			if(i==0){
+    				header += '<column width="80" type="ro" align="center" sort="str">' + key + '</column>';
+    			}
+    			rows += '<cell align="center">' + obj[key] +'</cell>';
+    		}
+    		rows += "</row>";
+    	}	
+    	header += '</head>';
+    	strs += header;
+    	strs += rows;
+		strs += '</rows>';
+		bottomGrid.parse(strs, "xml");
+	}
+	function returnTableInfo(list){
+		var datas = list.data;
+    	var strs = "<?xml version='1.0' encoding='utf-8'?>";
+		strs += '<rows>';
+    	for(i=0; i<datas.length;i++){
+    		strs += "<row id='r" + (i+1) + "'>";
+    		strs += '<cell image="folder.gif">' + datas[i].column_name +'</cell>';
+    		strs += '<cell>' + datas[i].data_type +'</cell>';
+    		strs += '<cell>' + datas[i].character_maximum_length +'</cell>';
+    		strs += '<cell>' + datas[i].is_nullable +'</cell>';
+    		strs += "</row>";
+    	}	
+    	strs += "</rows>";
+    	topGrid.clearAll();
+    	topGrid.parse(strs,"xml");
 	}
 	function returnDBList(list){
 		var datas = list.data;
@@ -80,7 +135,7 @@ var data={
 		var datas = list.data;
 		var rowId = dbConGrid.getSelectedRowId();
     	for(i=0; i<datas.length;i++){
-    		dbConGrid.addRow(rowId + '_t'+(i+1),' , ' + datas[i].tablename,i,rowId,null,true);
+    		dbConGrid.addRow(rowId + '_table'+(i+1),' , ' + datas[i].tablename,i,rowId,null,true);
     	}	
 	}
 	function returnList(list){
@@ -139,37 +194,42 @@ var data={
 	    dbConGrid.setColSorting("str,str,str");
 	    dbConGrid.setColumnIds("dinum,dbname,id");
 	    dbConGrid.init();
+	    dbConGrid.attachEvent("onRowSelect",gridClickEvent)
 	    
 	    
 	    layout.cells("a").setText("DataBase Connections");//sets the form's header  
 	    layout.cells("b").hideHeader();      //hides the header of the 'chart' cell  
 	    layout.cells("c").setText("Result");     //hides the header of the 'grid' cell  
 	    var myTabbar = layout.cells("b").attachTabbar(); 
-	    myTabbar.addTab("a1", "Tab 1-1", null, null, true);
-	    myTabbar.addTab("a2", "Tab 1-2");
-	    topGrid = layout.cells("b").attachGrid();
+	    myTabbar.addTab("a1", "테이블 정보", null, null, true);
+	    myTabbar.addTab("a2", "RUN SQL");
+	    topGrid = myTabbar.tabs("a1").attachGrid();
 	    topGrid.setImagePath(imgPath);
-	    topGrid.setHeader("userid, username, age, address",null
+	    topGrid.setHeader("컬럼명, 자료형, 길이, 널가능여부",null
 	    		,["text-align:center;","text-align:center;","text-align:center;","text-align:center","text-align:center"]);   
-	    topGrid.setColTypes("ed,ed,ed,ed,ed");                 //sets the types of columns
+	    topGrid.setColTypes("ro,ro,ro,ro,ro");                 //sets the types of columns
 	    topGrid.setInitWidths("100,150,230,230,*");   //sets the initial widths of columns
 	    topGrid.setColAlign("center,center,center,center,center");  //sets the x alignment
 	    topGrid.setColSorting("str,str,str,str,str");
 	    topGrid.init();
-	    topGrid.parse(data, "json");
-	    
+	    var formData2 = [
+			{type: "settings", position: "label-left", labelWidth: 100, inputWidth: 300},
+			{type: "input", name: "sql", label: "SQL", value: "", rows:4,style:"height:300,width:300"},
+			{type: "block", inputWidth: "auto",  list: [
+					{type: "button", value: "Run", name:"runsql"},
+					{type:"newcolumn"},
+					{type: "button", value: "Cancel", name:"cancelsql"}
+			]}
+		];
+	    f2 = myTabbar.tabs("a2").attachForm(formData2, true);
+	    f2.attachEvent("onButtonClick",clickEvent);
+
 	    var cToolBar = layout.cells("c").attachToolbar();
 	    cToolBar.addButton("load","right","reLoad");
 	    cToolBar.attachEvent("onClick", clickEvent);
 	    
 	    bottomGrid = layout.cells("c").attachGrid();
 	    bottomGrid.setImagePath(imgPath);       //sets the path to the source images
-	    bottomGrid.setHeader("userid, username, age, admin, boardadmin",null
-	    		,["text-align:center;","text-align:center;","text-align:center;","text-align:center","text-align:center"]);              //sets the columns' headers
-	    bottomGrid.setColTypes("ed,ed,ed,ed,ed");                 //sets the types of columns
-	    bottomGrid.setInitWidths("100,150,230,230,*");   //sets the initial widths of columns
-	    bottomGrid.setColAlign("center,center,center,center,center");  //sets the x alignment
-	    bottomGrid.setColSorting("str,str,str,str,str");
 	    bottomGrid.init();
 	    //bottomGrid.parse(data, "json");
 	    clickEvent('selectdb');

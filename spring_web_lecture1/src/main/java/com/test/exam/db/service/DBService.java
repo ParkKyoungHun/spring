@@ -15,4 +15,6 @@ public interface DBService {
 	public List getTableList();
 	public List getDBList();
 	public Map getDBInfo(Map paramMap);
+	public List getTableInfo(Map pm);
+	public Map runSql(Map pm) ;
 }

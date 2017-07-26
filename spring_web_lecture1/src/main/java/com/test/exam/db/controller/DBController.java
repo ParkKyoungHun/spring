@@ -48,6 +48,19 @@ public class DBController {
 		model.put("data", dbList);
 		return model;
 	}
+	@RequestMapping(value="/db/tableinfo", method=RequestMethod.POST)
+	public @ResponseBody Map selectTableInfo(@RequestBody Map pm, ModelMap model) {
+		List tiList = dbs.getTableInfo(pm);
+		model.put("data", tiList);
+		return model;
+	}
+	@RequestMapping(value="/db/runsql", method=RequestMethod.POST)
+	public @ResponseBody Map runSqlResult(@RequestBody Map pm, ModelMap model) {
+		Map resultMap = dbs.runSql(pm);
+		model.put("data", resultMap.get("list")); 
+		model.put("columns", resultMap.get("columns"));
+		return model;
+	}
 	@RequestMapping(value="/db/condb", method=RequestMethod.POST)
 	public @ResponseBody Map connectDB(@RequestBody Map pm, ModelMap model) throws Exception {
 		Map hm = dbs.getDBInfo(pm);
