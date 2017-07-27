@@ -11,7 +11,7 @@ public class LogAdvice {
 
 	protected static final Logger log = Logger.getLogger(LogAdvice.class);
 	
-	@Around("execution(* com.test..*(..))")
+	@Around("execution(* com.test.exam.*.controller..*(..))")
 	public Object trace(ProceedingJoinPoint joinPoint) throws Throwable{
 		Signature signature = joinPoint.getSignature();
 		log.info("PerformanceTraceAdvice : " + signature.toShortString() + " Start");

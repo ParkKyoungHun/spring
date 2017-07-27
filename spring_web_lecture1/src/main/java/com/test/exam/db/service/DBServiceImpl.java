@@ -43,7 +43,7 @@ public class DBServiceImpl implements DBService {
 			ResultSetMetaData metadata = resultSet.getMetaData();
 			int columnCount = metadata.getColumnCount();
 			ArrayList<String> columns = new ArrayList<String>();
-			for (int i = 1; i < columnCount; i++) {
+			for (int i = 1; i <= columnCount; i++) {
 				String columnName = metadata.getColumnName(i);
 				columns.add(columnName);
 			}
