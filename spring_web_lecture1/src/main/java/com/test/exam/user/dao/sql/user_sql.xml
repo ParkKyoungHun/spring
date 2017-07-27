@@ -36,7 +36,7 @@
 	</delete>	
 	
 	<insert id="USER_INSERT" parameterType="Map">
-		insert into user_info(user_name, user_id, user_pwd, age, admin,board_admin)
+		insert into user_info(username, userid, userpwd, age, admin,boardadmin)
 		values(#{username},#{userid},#{userpwd},#{age},#{admin},#{boardadmin})
 	</insert>
 </mapper>

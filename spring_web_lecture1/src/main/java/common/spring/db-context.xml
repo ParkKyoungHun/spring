@@ -36,7 +36,12 @@
 			</bean>
 		</property>
 	</bean>
-
+	
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="txAdvisePointCut" expression="execution(* com.test..service.*Service.*(..))"/>
+		<aop:advisor id="transactionAdvisor" pointcut-ref="txAdvisePointCut" advice-ref="txAdvice"/>
+	</aop:config>
+	
 	<tx:advice id="txAdvice" transaction-manager="txManager">
 		<tx:attributes>
 			<tx:method name="get*" read-only="true" />

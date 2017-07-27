@@ -75,6 +75,11 @@ var data={
 	}
 	
 	function returnResultList(list){
+		var error = list.error;
+		if(error){
+			alert(error);
+			return;
+		}
 		var datas = list.data;
 		var columns = list.columns;
     	var strs = "<?xml version='1.0' encoding='utf-8'?>";

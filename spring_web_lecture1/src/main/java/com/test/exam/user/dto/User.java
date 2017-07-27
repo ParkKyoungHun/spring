@@ -1,7 +1,9 @@
 package com.test.exam.user.dto;
 
-import com.test.exam.common.CommonDTO;
+import org.springframework.stereotype.Component;
 
+import com.test.exam.common.CommonDTO;
+@Component
 public class User extends CommonDTO{
 	
 	private String userId;

@@ -36,33 +36,41 @@ public class DBServiceImpl implements DBService {
 		return true;
 	}
 
-	public Map runSql(Map pm){
+	public Map runSql(Map pm) throws Exception{
 		try {
-			Statement statement = ss.getConnection().createStatement();
-			ResultSet resultSet = statement.executeQuery((String)pm.get("sql"));
-			ResultSetMetaData metadata = resultSet.getMetaData();
-			int columnCount = metadata.getColumnCount();
-			ArrayList<String> columns = new ArrayList<String>();
-			for (int i = 1; i <= columnCount; i++) {
-				String columnName = metadata.getColumnName(i);
-				columns.add(columnName);
-			}
-			List list = new ArrayList();
-			while(resultSet.next()){
-				Map hm = new HashMap();
-				for(String column : columns){
-					hm.put(column, resultSet.getString(column));
-				}
-				list.add(hm);
-			}
+			String sql = (String)pm.get("sql");
+			sql = sql.trim();
 			Map map = new HashMap();
-			map.put("list", list);
-			map.put("columns", columns);
+			Statement statement = ss.getConnection().createStatement();
+			if(sql.indexOf("select")==0){
+				ResultSet resultSet = statement.executeQuery(sql);
+				ResultSetMetaData metadata = resultSet.getMetaData();
+				int columnCount = metadata.getColumnCount();
+				ArrayList<String> columns = new ArrayList<String>();
+				for (int i = 1; i <= columnCount; i++) {
+					String columnName = metadata.getColumnName(i);
+					columns.add(columnName);
+				}
+				List list = new ArrayList();
+				while(resultSet.next()){
+					Map hm = new HashMap();
+					for(String column : columns){
+						hm.put(column, resultSet.getString(column));
+					}
+					list.add(hm);
+				}
+				map.put("type", "select");
+				map.put("list", list);
+				map.put("columns", columns);
+			}else{
+				int result = statement.executeUpdate(sql);
+				map.put("type", "save");
+				map.put("row", result);
+			}
 			return map;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new Exception(e);
 		}
-		return null;
 	}
 
 	public List getTableList() {

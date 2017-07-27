@@ -106,7 +106,7 @@ public class UserController {
 
 
 	@RequestMapping(value="/user/signin")
-	public @ResponseBody Map signIn(@RequestBody Map pm,ModelMap model,HttpSession hs) {
+	public @ResponseBody Map insertUser(@RequestBody Map pm,ModelMap model,HttpSession hs) {
 		int result = us.insertUser(pm);
 		if(result==1){
 			model.put("url", "/user/userlist");

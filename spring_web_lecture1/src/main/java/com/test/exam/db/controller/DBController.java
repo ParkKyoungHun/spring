@@ -56,9 +56,19 @@ public class DBController {
 	}
 	@RequestMapping(value="/db/runsql", method=RequestMethod.POST)
 	public @ResponseBody Map runSqlResult(@RequestBody Map pm, ModelMap model) {
-		Map resultMap = dbs.runSql(pm);
-		model.put("data", resultMap.get("list")); 
-		model.put("columns", resultMap.get("columns"));
+		Map resultMap;
+		try {
+			resultMap = dbs.runSql(pm);
+			String type = (String)resultMap.get("type");
+			if(type.equals("select")){
+				model.put("data", resultMap.get("list")); 
+				model.put("columns", resultMap.get("columns"));
+			}else{
+				model.put("row", resultMap.get("row"));
+			}
+		} catch (Exception e) {
+			model.put("error", e.getMessage());
+		}
 		return model;
 	}
 	@RequestMapping(value="/db/condb", method=RequestMethod.POST)

@@ -36,6 +36,7 @@ CREATE TABLE `db_info` (
 		select  column_name, data_type, character_maximum_length,is_nullable
 		 from INFORMATION_SCHEMA.columns 
 		where table_name=#{dbname}
+		and table_schema=database()
 		 order by ordinal_position;
 	</select>
 </mapper>

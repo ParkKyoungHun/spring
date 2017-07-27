@@ -9,12 +9,6 @@ import org.springframework.stereotype.Service;
 import com.test.exam.common.dao.MainDao;
 import com.test.exam.user.dto.User;
 
-import java.util.Map;
-
-import org.springframework.transaction.annotation.Transactional;
-
-import com.test.exam.user.dto.User;
-@Transactional
 @Service
 public class UserServiceImpl implements UserService {
 	
